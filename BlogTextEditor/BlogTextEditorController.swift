@@ -15,7 +15,8 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var bottomViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomView: UIView!
     
-    var fontSize: CGFloat = 14.0
+    let defaultFontSize: CGFloat = 18.0
+    var fontSize: CGFloat = 18.0
     var bool: Bool = true
     var isFontColor: Bool = true
     var popoverVC: ColorPickerViewController = ColorPickerViewController()
@@ -80,6 +81,17 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
     
     @IBAction func hideKeyboard(sender: AnyObject) {
         self.blogTextView.resignFirstResponder()
+    }
+    
+    @IBAction func reset(sender: AnyObject) {
+        self.fontSize = self.defaultFontSize
+        self.blogTextView.typingAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(defaultFontSize)
+        self.blogTextView.typingAttributes[NSObliquenessAttributeName] = 0
+        self.blogTextView.typingAttributes[NSUnderlineStyleAttributeName] = 0
+        self.blogTextView.typingAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(defaultFontSize)
+        self.blogTextView.typingAttributes[NSForegroundColorAttributeName] = UIColor.blackColor()
+        self.blogTextView.typingAttributes[NSBackgroundColorAttributeName] = UIColor.clearColor()
+        Notice.showText("重置样式", fontsize: defaultFontSize, obliqueness: 0)
     }
     
     @IBAction func goBold(sender: AnyObject) {
@@ -208,10 +220,6 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
             Notice.showText("减小字体", fontsize: fontSize,obliqueness: 0) //弹出提示
         }
     }
-
-    @IBAction func changeFontStyle(sender: AnyObject) {
-        print("changeFontStyle")
-    }
     
     @IBAction func changeColor(sender: AnyObject) {
         isFontColor = true
@@ -237,7 +245,7 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
         presentViewController(popoverVC, animated: true, completion: nil)
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController!) -> UIModalPresentationStyle {
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         // Return no adaptive presentation style, use default presentation behaviour
         return .None
     }
