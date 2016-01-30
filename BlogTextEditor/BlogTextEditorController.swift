@@ -315,12 +315,10 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
         textAttachment.image = img
         let textAttachmentString = NSAttributedString(attachment: textAttachment)
         
-        let countString:Int = self.blogTextView.text.characters.count as Int
+        let countString:Int = self.blogTextView.selectedRange.location
         string.insertAttributedString(textAttachmentString, atIndex: countString) //可以用这个函数实现 插入到光标所在点 ps:如果你实现了希望能共享
         self.blogTextView.attributedText = string
-        //string.appendAttributedString(textAttachmentString)                    //也可以直接添加都后面
         picker.dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
     func scaleImage(image:UIImage)->UIImage{
