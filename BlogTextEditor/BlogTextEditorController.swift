@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate {
+class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var blogTextView: UITextView!
     @IBOutlet weak var toolbar: UIToolbar!
@@ -23,6 +23,8 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.blogTextView.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -54,6 +56,10 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    func textViewDidChange(textView: UITextView) {
+        self.blogTextView.scrollRangeToVisible(self.blogTextView.selectedRange)
+    }
+    
     func keyboardWillChangeFrameWithNotification(notification: NSNotification, showsKeyboard: Bool) {
         let userInfo = notification.userInfo!
         let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
@@ -81,6 +87,9 @@ class BlogTextEditorController: UIViewController, UIImagePickerControllerDelegat
     
     @IBAction func hideKeyboard(sender: AnyObject) {
         self.blogTextView.resignFirstResponder()
+        
+        print(self.blogTextView.text)
+        print(self.blogTextView.attributedText)
     }
     
     @IBAction func reset(sender: AnyObject) {
